@@ -1,4 +1,12 @@
-const lodash = require('lodash');
-const items = [1,[2,[3,[4]]]]
-const newItems = lodash.flattenDeep(items);
-console.log(newItems);
+const express = require('express');
+const app = express();
+const path = require('path');
+
+app.use(express.static('./public'))
+
+app.get('/', (req, res) =>{
+    res.sendFile(path.resolve(__dirname, './navbar-app/index.html'));
+});
+
+
+app.listen(5000);
