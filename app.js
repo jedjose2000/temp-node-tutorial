@@ -1,12 +1,33 @@
 const express = require('express');
 const app = express();
-const path = require('path');
+const logger = require('./middleware/logger');
+const authorize = require('./middleware/authorize');
+const morgan = require('morgan');
 
-app.use(express.static('./public'))
+// req => middleware => res
 
-app.get('/', (req, res) =>{
-    res.sendFile(path.resolve(__dirname, './navbar-app/index.html'));
+// app.use(logger);
+
+// app.use('/api',logger); //applied to any /api route
+
+// app.use([logger,authorize]); //execute multiple middleware functions. Executed in order
+// app.use(express.static('./public'));
+app.use(morgan('tiny'));
+
+app.get('/' ,(req,res)=>{
+    res.send('home');
 });
 
+app.get('/about', (req,res)=>{
+    console.log(req.user);
+    res.send('about');
+});
 
-app.listen(5000);
+app.get('/api/products', (req,res)=>{ //[logger,authorize] example for using multiple middlewares. Must be stored into an array
+    console.log(req.user);
+    res.send('products');
+});
+
+app.listen(5000, ()=>{
+    console.log('SERVER STARTED');
+});
