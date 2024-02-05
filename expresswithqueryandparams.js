@@ -39,6 +39,7 @@ app.get('/api/v1/query', (req,res) =>{
 app.get('/api/products/:productID', (req,res)=>{
     let productID = req.params.productID;
     let singleProduct = data.products.find((product)=> product.id === Number(productID))
+    console.log(typeof productID)
     if(!singleProduct){
         res.status(404).send('data not found');
     }
